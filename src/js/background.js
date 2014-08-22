@@ -19,7 +19,8 @@ chrome.contextMenus.create({
 });
 
 function getDesc(str) {
-  var descHTML = str.match(/<div class="card-summary-content">.*?<\/div>/g)[0].replace(/<div.*?>/g, '').replace(/<\/div>/, '');
+  var descHTML = str.match(/<div class="card-summary-content">.*|<dd class="desc">.*|<div class="para">.*/ig);
+  descHTML = descHTML[0].replace(/<(?!\/?a)[^<>]*>/ig, '');
   return descHTML;
 }
 
@@ -48,9 +49,9 @@ function getDescFragment(str) {
           length += 1;
         }
       }
-    }
-    if (length >= 120) {
-      break;
+      if (length >= 120) {
+        break;
+      }
     }
     descHTMLFragment += letter;
   }
